@@ -31,12 +31,12 @@
     "[yaml]": {
       "editor.tabSize": 2,
     },
-    "C_Cpp.default.compileCommands": "${workspaceFolder}/../build/compile_commands.json",
+    "C_Cpp.default.compileCommands": "${env:HOME}/build/compile_commands.json",
     "C_Cpp.default.intelliSenseMode": "clang-x64",
     "C_Cpp.formatting": "Disabled",
     "cmakeFormat.args": [
       "--config-files",
-      "${workspaceFolder}/config/cmake-format.py"
+      "${env:HOME}/vscode_ros2_ws/config/cmake-format.py"
     ],
     "editor.detectIndentation": false,
     "editor.tabSize": 2,
@@ -50,11 +50,11 @@
     "python.formatting.provider": "yapf",
     "python.formatting.yapfArgs": [
       "--style",
-      "${workspaceFolder}/config/style.yapf"
+      "${env:HOME}/vscode_ros2_ws/config/style.yapf"
     ],
     "python.linting.flake8Args": [
       "--config",
-      "${workspaceFolder}/config/ament_flake8.ini",
+      "${env:HOME}/vscode_ros2_ws/config/ament_flake8.ini",
     ],
     "python.linting.flake8Enabled": true,
     "python.linting.pylintEnabled": false,
@@ -67,8 +67,9 @@
     "terminal.integrated.shellArgs.linux": [
       "-i", // allow .bashrc environment in tasks (no needed if container config has "userEnvProbe": "loginInteractiveShell")
     ],
-    "uncrustify.configPath.linux": "${workspaceFolder}/config/ament_code_style.cfg",
+    "uncrustify.configPath.linux": "${env:HOME}/vscode_ros2_ws/config/ament_code_style.cfg",
     "uncrustify.useReplaceOption": true,
+    // "python.analysis.extraPaths": ["/opt/ros/foxy/lib/python3.8/site-packages/"]
   },
   // LAUNCH
   "launch": {
