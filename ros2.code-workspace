@@ -31,12 +31,12 @@
     "[yaml]": {
       "editor.tabSize": 2,
     },
-    "C_Cpp.default.compileCommands": "${env:HOME}/build/compile_commands.json",
+    "C_Cpp.default.compileCommands": "${env:COLCON_WORKSPACE_FOLDER}/build/compile_commands.json",
     "C_Cpp.default.intelliSenseMode": "clang-x64",
     "C_Cpp.formatting": "Disabled",
     "cmakeFormat.args": [
       "--config-files",
-      "${env:HOME}/vscode_ros2_ws/config/cmake-format.py"
+      "${env:COLCON_WORKSPACE_FOLDER}/.vscode-format/cmake-format.py"
     ],
     "editor.detectIndentation": false,
     "editor.tabSize": 2,
@@ -50,11 +50,11 @@
     "python.formatting.provider": "yapf",
     "python.formatting.yapfArgs": [
       "--style",
-      "${env:HOME}/vscode_ros2_ws/config/style.yapf"
+      "${env:COLCON_WORKSPACE_FOLDER}/.vscode-format/style.yapf"
     ],
     "python.linting.flake8Args": [
       "--config",
-      "${env:HOME}/vscode_ros2_ws/config/ament_flake8.ini",
+      "${env:COLCON_WORKSPACE_FOLDER}/.vscode-format/ament_flake8.ini",
     ],
     "python.linting.flake8Enabled": true,
     "python.linting.pylintEnabled": false,
@@ -64,10 +64,10 @@
       "-o",
       "launch" // avoid separating launch import in launch.py files
     ],
-    "terminal.integrated.shellArgs.linux": [
-      "-i", // allow .bashrc environment in tasks (no needed if container config has "userEnvProbe": "loginInteractiveShell")
-    ],
-    "uncrustify.configPath.linux": "${env:HOME}/vscode_ros2_ws/config/ament_code_style.cfg",
+    // "terminal.integrated.shellArgs.linux": [
+    //   "-i", // allow .bashrc environment in tasks (no needed if container config has "userEnvProbe": "loginInteractiveShell")
+    // ],
+    "uncrustify.configPath.linux": "${env:COLCON_WORKSPACE_FOLDER}/.vscode-format/ament_code_style.cfg",
     "uncrustify.useReplaceOption": true,
     // "python.analysis.extraPaths": ["/opt/ros/foxy/lib/python3.8/site-packages/"]
   },
@@ -88,11 +88,11 @@
         "name": "(gdb) Launch",
         "type": "cppdbg",
         "request": "launch",
-        "program": "${workspaceFolder}/../install/${input:package}/lib/${input:package}/${input:program}",
+        "program": "${env:COLCON_WORKSPACE_FOLDER}/install/${input:package}/lib/${input:package}/${input:program}",
         "args": [],
         "preLaunchTask": "build",
         "stopAtEntry": true,
-        "cwd": "${workspaceFolder}/..",
+        "cwd": "${env:COLCON_WORKSPACE_FOLDER}",
         "externalConsole": false,
         "MIMode": "gdb",
         "setupCommands": [
@@ -136,7 +136,7 @@
         },
         "problemMatcher": "$gcc",
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       // Test tasks
@@ -150,7 +150,7 @@
           "isDefault": true
         },
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       // Clean
@@ -161,7 +161,7 @@
         "command": "colcon build --cmake-target clean",
         "problemMatcher": "$gcc",
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       {
@@ -171,7 +171,7 @@
         "command": "rm -fr build install log; py3clean .",
         "problemMatcher": [],
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       // Linting and static code analysis tasks
@@ -182,7 +182,7 @@
         "command": "ament_uncrustify --reformat src/",
         "problemMatcher": [],
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       {
@@ -212,7 +212,7 @@
           }
         ],
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       {
@@ -242,7 +242,7 @@
           }
         ],
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       {
@@ -270,7 +270,7 @@
           }
         ],
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       {
@@ -298,7 +298,7 @@
           }
         ],
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       {
@@ -328,7 +328,7 @@
           }
         ],
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       {
@@ -357,7 +357,7 @@
           }
         ],
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       {
@@ -387,7 +387,7 @@
           }
         ],
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       {
@@ -412,7 +412,7 @@
         "command": "ros2 pkg create --destination-directory src --build-type ament_cmake ${input:package}",
         "problemMatcher": [],
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       {
@@ -422,7 +422,7 @@
         "command": "ros2 pkg create --destination-directory src --build-type ament_python ${input:package}",
         "problemMatcher": [],
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       {
@@ -432,7 +432,7 @@
         "command": "vcs import < src/ros2.repos src",
         "problemMatcher": [],
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       {
@@ -442,7 +442,7 @@
         "command": "vcs export src > src/ros2.repos",
         "problemMatcher": [],
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       {
@@ -452,7 +452,7 @@
         "command": "sudo apt-get update && rosdep update && rosdep install --from-paths src --ignore-src -y",
         "problemMatcher": [],
         "options": {
-          "cwd": "${workspaceFolder}/.."
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
         },
       },
       // File editing tasks
