@@ -26,9 +26,9 @@ while [ -n "$1" ]; do
   shift
 done
 
-WORKING_DIR=$(docker inspect -f {{.Config.WorkingDir}} orise-noetic-devel)
-ROS_DISTRO=$(docker exec orise-noetic-devel /bin/bash -c "printenv ROS_DISTRO")
-COLCON_WORKSPACE_FOLDER=$(docker exec orise-noetic-devel /bin/bash -c "printenv COLCON_WORKSPACE_FOLDER")
+WORKING_DIR=$(docker inspect -f {{.Config.WorkingDir}} $CONTAINER_NAME)
+ROS_DISTRO=$(docker exec $CONTAINER_NAME /bin/bash -c "printenv ROS_DISTRO")
+COLCON_WORKSPACE_FOLDER=$(docker exec $CONTAINER_NAME /bin/bash -c "printenv COLCON_WORKSPACE_FOLDER")
 
 COLCON_WORKSPACE_FOLDER=${COLCON_WORKSPACE_FOLDER:-$WORKING_DIR}
 
