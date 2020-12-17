@@ -18,7 +18,7 @@ Recommend convenient extensions, configure formatting and linting tools, and pro
 
 The workspace try to offer full formatting and linting tools to accomplish the rules defined by [`ament_lint_common`](https://github.com/ament/ament_lint/tree/master/ament_lint_common)
 
-- **Python:** compatible with [`amment_flake8`](https://github.com/ament/ament_lint/tree/master/ament_flake8) and [`ament_pep257`](https://github.com/ament/ament_lint/tree/master/ament_pep257) using tools like `yapf`, `isort`, `flake8`
+- **Python:** compatible with [`amment_flake8`](https://github.com/ament/ament_lint/tree/master/ament_flake8) and [`ament_pep257`](https://github.com/ament/ament_lint/tree/master/ament_pep257) using tools like [`yapf`](https://github.com/google/yapf), [`isort`](https://pycqa.github.io/isort/), [`flake8`](https://flake8.pycqa.org/en/latest/)
 - **C++:** compatible with [`amment_uncrustify`](https://github.com/ament/ament_lint/tree/master/amment_uncrustify), [`amment_cpplint`](https://github.com/ament/ament_lint/tree/master/amment_cpplint), [`amment_cppcheck`](https://github.com/ament/ament_lint/tree/master/amment_cppcheck)
 - **CMake:** compatible with [`ament_lint_cmake`](https://github.com/ament/ament_lint/tree/master/ament_lint_cmake) using [`cmake-format`](https://marketplace.visualstudio.com/items?itemName=cheshirekow.cmake-format)
 - **XML:** compatible with [`ament_xml_lint`](https://github.com/ament/ament_lint/tree/master/ament_xml_lint)
