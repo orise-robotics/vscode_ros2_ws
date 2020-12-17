@@ -4,15 +4,15 @@ usage() {
   printf "Usage: $0 CONTAINER_NAME\n"
   printf "Setup vscode workspace for specified container\n\n"
   printf "Options:\n"
+  printf "  -d|--distro\t\t ROS distro. Assume CONTAINER_NAME is 'orise-$ROS_DISTRO-devel'\n"
   printf "  -h|--help\t\t Shows this help message\n"
-  # printf "  -c|--container\t\t Container name\n"
-  # printf "  -d|--distro\t\t ROS distro (assumes container name is 'orise-$ROS_DISTRO-devel'\n"
 
   exit 0
 }
 
 while [ -n "$1" ]; do
   case $1 in
+  -d | --distro) CONTAINER_NAME="orise-$1-devel" ;;
   -h | --help) usage ;;
   -?*)
     echo "Unknown option '$1'" 1>&2
@@ -35,7 +35,7 @@ COLCON_WORKSPACE_FOLDER=${COLCON_WORKSPACE_FOLDER:-$WORKING_DIR}
 CONTAINER_CONFIG_FOLDER="$HOME/.config/Code/User/globalStorage/ms-vscode-remote.remote-containers/nameConfigs"
 
 if [ ! -d "${CONTAINER_CONFIG_FOLDER}" ]; then
-    mkdir -p "${CONTAINER_CONFIG_FOLDER}"
+  mkdir -p "${CONTAINER_CONFIG_FOLDER}"
 fi
 
 cp .devcontainer.json $CONTAINER_CONFIG_FOLDER/$CONTAINER_NAME.json
