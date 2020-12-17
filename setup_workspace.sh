@@ -38,7 +38,7 @@ if [ ! -d "${CONTAINER_CONFIG_FOLDER}" ]; then
     mkdir -p "${CONTAINER_CONFIG_FOLDER}"
 fi
 
-echo '{"userEnvProbe": "loginInteractiveShell", "remoteUser": "orise"}' > "$CONTAINER_CONFIG_FOLDER/$CONTAINER_NAME.json"
+cp .devcontainer.json $CONTAINER_CONFIG_FOLDER/$CONTAINER_NAME.json
 
 docker cp ros2.code-workspace $CONTAINER_NAME:$COLCON_WORKSPACE_FOLDER/
 docker cp .vscode-format/ $CONTAINER_NAME:$COLCON_WORKSPACE_FOLDER/
