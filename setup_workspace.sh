@@ -65,7 +65,7 @@ if [ ! -d "${CONTAINER_CONFIG_FOLDER}" ]; then
 fi
 
 # substitute docker user
-substenv <.devcontainer.json >$CONTAINER_CONFIG_FOLDER/$CONTAINER_NAME.json
+envsubst <.devcontainer.json >$CONTAINER_CONFIG_FOLDER/$CONTAINER_NAME.json
 
 # copy config files to inside the container
 docker cp ros2.code-workspace $CONTAINER_NAME:$COLCON_WORKSPACE_FOLDER/
