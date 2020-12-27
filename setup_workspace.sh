@@ -70,3 +70,27 @@ envsubst <.devcontainer.json >$CONTAINER_CONFIG_FOLDER/$CONTAINER_NAME.json
 # copy config files to inside the container
 docker cp ros2.code-workspace $CONTAINER_NAME:$COLCON_WORKSPACE_FOLDER/
 docker cp .vscode-format/ $CONTAINER_NAME:$COLCON_WORKSPACE_FOLDER/
+
+docker exec orise-foxy-devel apt-get install -y \
+  python3-pip \
+  ros-$ROS_DISTRO-ament-copyright \
+  ros-$ROS_DISTRO-ament-cppcheck \
+  ros-$ROS_DISTRO-ament-cpplint \
+  ros-$ROS_DISTRO-ament-flake8 \
+  ros-$ROS_DISTRO-ament-lint-cmake \
+  ros-$ROS_DISTRO-ament-pep257 \
+  ros-$ROS_DISTRO-ament-uncrustify \
+  ros-$ROS_DISTRO-ament-xmllint
+
+docker exec orise-foxy-devel pip3 install \
+  cmake-format \
+  yapf \
+  flake8 \
+  flake8-blind-except \
+  flake8-builtins \
+  flake8-class-newline \
+  flake8-comprehensions \
+  flake8-deprecated \
+  flake8-docstrings \
+  flake8-import-order \
+  flake8-quotes
