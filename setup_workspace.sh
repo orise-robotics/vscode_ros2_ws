@@ -64,7 +64,8 @@ if [ ! -d "${CONTAINER_CONFIG_FOLDER}" ]; then
   mkdir -p "${CONTAINER_CONFIG_FOLDER}"
 fi
 
-# substitute docker user
+# substitute env variables
+export COLCON_WORKSPACE_FOLDER DOCKER_USER ROS_DISTRO
 envsubst <.devcontainer.json >$CONTAINER_CONFIG_FOLDER/$CONTAINER_NAME.json
 
 # copy config files to inside the container

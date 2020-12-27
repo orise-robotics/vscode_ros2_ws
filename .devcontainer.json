@@ -1,5 +1,6 @@
 // Default configuration for attached container
 {
-    "userEnvProbe": "loginInteractiveShell",
-    "remoteUser": "$DOCKER_USER",
+  "userEnvProbe": "loginInteractiveShell",
+  "remoteUser": "$DOCKER_USER",
+  "workspaceFolder": "$COLCON_WORKSPACE_FOLDER/ros2.code-workspace",
 }
