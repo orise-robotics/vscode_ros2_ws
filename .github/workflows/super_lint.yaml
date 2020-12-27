@@ -5,6 +5,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: git checkout
-    - uses: actions/checkout@v2
+      uses: actions/checkout@v2
     - name: super lint
       uses: github/super-linter@v3
