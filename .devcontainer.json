@@ -1,5 +1,5 @@
 // Default configuration for attached container
 {
     "userEnvProbe": "loginInteractiveShell",
-    "remoteUser": "orise",
+    "remoteUser": "$DOCKER_USER",
 }
