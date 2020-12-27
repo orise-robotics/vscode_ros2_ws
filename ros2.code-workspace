@@ -6,7 +6,7 @@
     "recommendations": [
       "cheshirekow.cmake-format",
       "dotjoshjohnson.xml",
-      "laurenttreguier.uncrustify",
+      // "laurenttreguier.uncrustify",
       "ms-python.python",
       "ms-vscode.cpptools",
       "redhat.vscode-yaml",
@@ -18,10 +18,10 @@
   },
   // SETTINGS
   "settings": {
-    "[cpp]": {
-      "editor.defaultFormatter": "LaurentTreguier.uncrustify",
-      "editor.tabSize": 2,
-    },
+    // "[cpp]": {
+    //   "editor.defaultFormatter": "LaurentTreguier.uncrustify",
+    //   "editor.tabSize": 2,
+    // },
     "[python]": {
       "editor.tabSize": 4,
     },
@@ -64,12 +64,8 @@
       "-o",
       "launch" // avoid separating launch import in launch.py files
     ],
-    // "terminal.integrated.shellArgs.linux": [
-    //   "-i", // allow .bashrc environment in tasks (no needed if container config has "userEnvProbe": "loginInteractiveShell")
-    // ],
-    "uncrustify.configPath.linux": "${env:COLCON_WORKSPACE_FOLDER}/.vscode-format/ament_code_style.cfg",
-    "uncrustify.useReplaceOption": true,
-    // "python.analysis.extraPaths": ["/opt/ros/foxy/lib/python3.8/site-packages/"]
+    // "uncrustify.configPath.linux": "${env:COLCON_WORKSPACE_FOLDER}/.vscode-format/ament_code_style.cfg",
+    // "uncrustify.useReplaceOption": true,
   },
   // LAUNCH
   "launch": {
@@ -129,7 +125,7 @@
         "label": "build",
         "detail": "Build workspace (default)",
         "type": "shell",
-        "command": "colcon build --merge-install --cmake-args '-DCMAKE_BUILD_TYPE=RelWithDebInfo' -Wall -Wextra -Wpedantic",
+        "command": "colcon build --cmake-args '-DCMAKE_BUILD_TYPE=RelWithDebInfo' -Wall -Wextra -Wpedantic",
         "group": {
           "kind": "build",
           "isDefault": true
@@ -144,7 +140,7 @@
         "label": "test",
         "detail": "Run all unit tests and show results.",
         "type": "shell",
-        "command": "colcon test --merge-install; colcon test-result",
+        "command": "colcon test; colcon test-result",
         "group": {
           "kind": "test",
           "isDefault": true
