@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 usage() {
-  printf "Usage: $0 [options] CONTAINER_NAME\n\n"
+  printf "Usage: %s [options] CONTAINER_NAME\n\n" "$0"
   printf "Setup vscode workspace for specified container\n\n"
   printf "Options:\n"
   printf "  -h|--help\t\t   Shows this help message\n"
@@ -27,7 +27,7 @@ while [ -n "$1" ]; do
   *)
     CONTAINER_NAME="$1"
     shift
-    [[ ! -z "$@" ]] && echo -e "Invalid arguments: '$@'\n" && usage && exit 1
+    [ -n "$*" ] && echo -e "Invalid arguments: '$*'\n" && usage && exit 1
     break
     ;;
   esac
@@ -41,19 +41,19 @@ if [ -z "$CONTAINER_NAME" ]; then
   exit 1
 fi
 
-if [ -z $(docker ps -qa --filter name=^$CONTAINER_NAME$) ]; then
+if [ -z "$(docker ps -qa --filter name="^$CONTAINER_NAME$")" ]; then
   echo "There is no container named '$CONTAINER_NAME'."
   exit 1
 fi
 
-if [ -z $(docker ps -qa --filter name=^$CONTAINER_NAME$ --filter status=running) ]; then
+if [ -z "$(docker ps -qa --filter name="^$CONTAINER_NAME$" --filter status=running)" ]; then
   echo "Container '$CONTAINER_NAME' is not running."
   exit 1
 fi
 
-WORKING_DIR=$(docker inspect -f {{.Config.WorkingDir}} $CONTAINER_NAME)
-ROS_DISTRO=$(docker exec $CONTAINER_NAME /bin/bash -c "printenv ROS_DISTRO")
-COLCON_WORKSPACE_FOLDER=$(docker exec $CONTAINER_NAME /bin/bash -c "printenv COLCON_WORKSPACE_FOLDER")
+WORKING_DIR=$(docker inspect -f '{{.Config.WorkingDir}}' "$CONTAINER_NAME")
+ROS_DISTRO=$(docker exec "$CONTAINER_NAME" /bin/bash -c "printenv ROS_DISTRO")
+COLCON_WORKSPACE_FOLDER=$(docker exec "$CONTAINER_NAME" /bin/bash -c "printenv COLCON_WORKSPACE_FOLDER")
 
 # Take container WORKING_DIR when $COLCON_WORKSPACE_FOLDER is not defined in the container
 COLCON_WORKSPACE_FOLDER=${COLCON_WORKSPACE_FOLDER:-$WORKING_DIR}
@@ -66,22 +66,22 @@ fi
 
 # substitute env variables
 export COLCON_WORKSPACE_FOLDER DOCKER_USER ROS_DISTRO
-envsubst <.devcontainer.json >$CONTAINER_CONFIG_FOLDER/$CONTAINER_NAME.json
+envsubst <.devcontainer.json >"$CONTAINER_CONFIG_FOLDER/$CONTAINER_NAME.json"
 
 # copy config files to inside the container
-docker cp ros2.code-workspace $CONTAINER_NAME:$COLCON_WORKSPACE_FOLDER/
-docker cp .vscode-format/ $CONTAINER_NAME:$COLCON_WORKSPACE_FOLDER/
+docker cp ros2.code-workspace "$CONTAINER_NAME:$COLCON_WORKSPACE_FOLDER/"
+docker cp .vscode-format/ "$CONTAINER_NAME:$COLCON_WORKSPACE_FOLDER/"
 
 docker exec orise-foxy-devel apt-get install -y \
   python3-pip \
-  ros-$ROS_DISTRO-ament-copyright \
-  ros-$ROS_DISTRO-ament-cppcheck \
-  ros-$ROS_DISTRO-ament-cpplint \
-  ros-$ROS_DISTRO-ament-flake8 \
-  ros-$ROS_DISTRO-ament-lint-cmake \
-  ros-$ROS_DISTRO-ament-pep257 \
-  ros-$ROS_DISTRO-ament-uncrustify \
-  ros-$ROS_DISTRO-ament-xmllint
+  ros-"$ROS_DISTRO"-ament-copyright \
+  ros-"$ROS_DISTRO"-ament-cppcheck \
+  ros-"$ROS_DISTRO"-ament-cpplint \
+  ros-"$ROS_DISTRO"-ament-flake8 \
+  ros-"$ROS_DISTRO"-ament-lint-cmake \
+  ros-"$ROS_DISTRO"-ament-pep257 \
+  ros-"$ROS_DISTRO"-ament-uncrustify \
+  ros-"$ROS_DISTRO"-ament-xmllint
 
 docker exec orise-foxy-devel pip3 install \
   cmake-format \
