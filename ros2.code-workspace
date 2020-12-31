@@ -8,6 +8,7 @@
       "dotjoshjohnson.xml",
       // "laurenttreguier.uncrustify",
       "ms-python.python",
+      "ms-python.vscode-pylance",
       "ms-vscode.cpptools",
       "redhat.vscode-yaml",
       "smilerobotics.urdf",
