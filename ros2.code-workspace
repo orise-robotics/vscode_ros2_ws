@@ -6,6 +6,7 @@
     "recommendations": [
       "cheshirekow.cmake-format",
       "dotjoshjohnson.xml",
+      "foxundermoon.shell-format",
       // "laurenttreguier.uncrustify",
       "ms-python.python",
       "ms-python.vscode-pylance",
