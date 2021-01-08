@@ -55,6 +55,7 @@ WORKING_DIR=$(docker inspect -f '{{.Config.WorkingDir}}' "$CONTAINER_NAME")
 ROS_DISTRO=$(docker exec "$CONTAINER_NAME" /bin/bash -c "printenv ROS_DISTRO")
 COLCON_WORKSPACE_FOLDER=$(docker exec "$CONTAINER_NAME" /bin/bash -c "printenv COLCON_WORKSPACE_FOLDER")
 
+
 # Take container WORKING_DIR when $COLCON_WORKSPACE_FOLDER is not defined in the container
 COLCON_WORKSPACE_FOLDER=${COLCON_WORKSPACE_FOLDER:-$WORKING_DIR}
 
@@ -72,7 +73,7 @@ envsubst <.devcontainer.json >"$CONTAINER_CONFIG_FOLDER/$CONTAINER_NAME.json"
 docker cp ros2.code-workspace "$CONTAINER_NAME:$COLCON_WORKSPACE_FOLDER/"
 docker cp .vscode-format/ "$CONTAINER_NAME:$COLCON_WORKSPACE_FOLDER/"
 
-docker exec orise-foxy-devel apt-get install -y \
+docker exec "$CONTAINER_NAME" apt-get install -y \
   python3-pip \
   ros-"$ROS_DISTRO"-ament-copyright \
   ros-"$ROS_DISTRO"-ament-cppcheck \
@@ -83,7 +84,7 @@ docker exec orise-foxy-devel apt-get install -y \
   ros-"$ROS_DISTRO"-ament-uncrustify \
   ros-"$ROS_DISTRO"-ament-xmllint
 
-docker exec orise-foxy-devel pip3 install \
+docker exec "$CONTAINER_NAME" pip3 install \
   cmake-format \
   yapf \
   flake8 \
