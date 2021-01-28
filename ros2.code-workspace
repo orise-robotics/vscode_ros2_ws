@@ -1,0 +1,474 @@
+{
+  // FOLDERS
+  "folders": [],
+  // EXTENSIONS
+  "extensions": {
+    "recommendations": [
+      "cheshirekow.cmake-format",
+      "dotjoshjohnson.xml",
+      "foxundermoon.shell-format",
+      // "laurenttreguier.uncrustify",
+      "ms-python.python",
+      "ms-python.vscode-pylance",
+      "ms-vscode.cpptools",
+      "redhat.vscode-yaml",
+      "smilerobotics.urdf",
+      "streetsidesoftware.code-spell-checker",
+      "timonwong.shellcheck",
+      "twxs.cmake",
+      "yzhang.markdown-all-in-one"
+    ]
+  },
+  // SETTINGS
+  "settings": {
+    // "[cpp]": {
+    //   "editor.defaultFormatter": "LaurentTreguier.uncrustify",
+    //   "editor.tabSize": 2,
+    // },
+    "[python]": {
+      "editor.tabSize": 4,
+    },
+    "[xml]": {
+      "editor.tabSize": 2,
+    },
+    "[yaml]": {
+      "editor.tabSize": 2,
+    },
+    "C_Cpp.default.compileCommands": "${env:COLCON_WORKSPACE_FOLDER}/build/compile_commands.json",
+    "C_Cpp.default.intelliSenseMode": "clang-x64",
+    "C_Cpp.formatting": "Disabled",
+    "cmakeFormat.args": [
+      "--config-files",
+      "${env:COLCON_WORKSPACE_FOLDER}/.vscode-format/cmake-format.py"
+    ],
+    "editor.detectIndentation": false,
+    "editor.tabSize": 2,
+    "files.associations": {
+      "*.repos": "yaml",
+      "*.world": "xml",
+      "*.xacro": "xml"
+    },
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "python.formatting.provider": "yapf",
+    "python.formatting.yapfArgs": [
+      "--style",
+      "${env:COLCON_WORKSPACE_FOLDER}/.vscode-format/style.yapf"
+    ],
+    "python.linting.flake8Args": [
+      "--config",
+      "${env:COLCON_WORKSPACE_FOLDER}/.vscode-format/ament_flake8.ini",
+    ],
+    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.sortImports.args": [
+      "--profile",
+      "google",
+      "-o",
+      "launch" // avoid separating launch import in launch.py files
+    ],
+    // "uncrustify.configPath.linux": "${env:COLCON_WORKSPACE_FOLDER}/.vscode-format/ament_code_style.cfg",
+    // "uncrustify.useReplaceOption": true,
+  },
+  // LAUNCH
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      // Example launch of a python file
+      {
+        "name": "Python: Current File",
+        "type": "python",
+        "request": "launch",
+        "program": "${file}",
+        "console": "integratedTerminal",
+      },
+      // Example gdb launch of a ros executable
+      {
+        "name": "(gdb) Launch",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${env:COLCON_WORKSPACE_FOLDER}/install/${input:package}/lib/${input:package}/${input:program}",
+        "args": [],
+        "preLaunchTask": "build",
+        "stopAtEntry": true,
+        "cwd": "${env:COLCON_WORKSPACE_FOLDER}",
+        "externalConsole": false,
+        "MIMode": "gdb",
+        "setupCommands": [
+          {
+            "description": "Enable pretty-printing for gdb",
+            "text": "-enable-pretty-printing",
+            "ignoreFailures": true
+          }
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "id": "package",
+        "type": "promptString",
+        "description": "Package name",
+        // "default": "examples_rclcpp_minimal_publisher"
+      },
+      {
+        "id": "program",
+        "type": "promptString",
+        "description": "Program name",
+        // "default": "publisher_member_function"
+      }
+    ]
+  },
+  // TASKS
+  "tasks": {
+    "version": "2.0.0",
+    // most tasks are taken from https://github.com/athackst/vscode_ros2_workspace
+    "tasks": [
+      // Build tasks
+      {
+        "label": "build",
+        "detail": "Build workspace (default)",
+        "type": "shell",
+        "command": "colcon build --cmake-args '-DCMAKE_BUILD_TYPE=RelWithDebInfo' -Wall -Wextra -Wpedantic",
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "problemMatcher": "$gcc",
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      // Test tasks
+      {
+        "label": "test",
+        "detail": "Run all unit tests and show results.",
+        "type": "shell",
+        "command": "colcon test; colcon test-result",
+        "group": {
+          "kind": "test",
+          "isDefault": true
+        },
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      // Clean
+      {
+        "label": "clean",
+        "detail": "Run the clean target",
+        "type": "shell",
+        "command": "colcon build --cmake-target clean",
+        "problemMatcher": "$gcc",
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      {
+        "label": "purge",
+        "detail": "Purge workspace by deleting all generated files.",
+        "type": "shell",
+        "command": "rm -fr build install log; py3clean .",
+        "problemMatcher": [],
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      // Linting and static code analysis tasks
+      {
+        "label": "fix",
+        "detail": "Reformat files with uncrustify.",
+        "type": "shell",
+        "command": "ament_uncrustify --reformat src/",
+        "problemMatcher": [],
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      {
+        "label": "uncrustify",
+        "detail": "Lint files with uncrustify.",
+        "type": "shell",
+        "command": "ament_uncrustify src/",
+        "presentation": {
+          "panel": "dedicated",
+          "reveal": "silent",
+          "clear": true
+        },
+        "problemMatcher": [
+          {
+            "owner": "uncrustify",
+            "source": " uncrustify",
+            "fileLocation": "relative",
+            "pattern": [
+              /// just the file name message
+              {
+                "regexp": "^(.*)'(.*)':",
+                "kind": "file",
+                "file": 2,
+                "message": 1
+              },
+            ]
+          }
+        ],
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      {
+        "label": "cpplint",
+        "detail": "Lint files with cpplint.",
+        "type": "shell",
+        "command": "ament_cpplint src/",
+        "presentation": {
+          "panel": "dedicated",
+          "reveal": "silent",
+          "clear": true
+        },
+        "problemMatcher": [
+          {
+            "owner": "cpplint",
+            "source": " cpplint",
+            "fileLocation": "absolute",
+            "pattern": [
+              {
+                "regexp": "^(.+):(\\d+):\\s+(.+)\\[(.+)\\]$",
+                "file": 1,
+                "line": 2,
+                "message": 3,
+                "code": 4
+              }
+            ]
+          }
+        ],
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      {
+        "label": "cppcheck",
+        "detail": "Run static code checker cppcheck.",
+        "type": "shell",
+        "command": "ament_cppcheck src/",
+        "presentation": {
+          "panel": "dedicated",
+          "reveal": "silent",
+          "clear": true
+        },
+        "problemMatcher": [
+          {
+            "owner": "cppcheck",
+            "source": "cppcheck",
+            "pattern": [
+              {
+                "regexp": "^\\[(.+):(\\d+)\\]:\\s+(.+)$",
+                "file": 1,
+                "line": 2,
+                "message": 3
+              }
+            ]
+          }
+        ],
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      {
+        "label": "lint_cmake",
+        "detail": "Run lint on cmake files.",
+        "type": "shell",
+        "command": "ament_lint_cmake src/",
+        "presentation": {
+          "panel": "dedicated",
+          "reveal": "silent",
+          "clear": true
+        },
+        "problemMatcher": [
+          {
+            "owner": "lint_cmake",
+            "source": "lint_cmake",
+            "pattern": [
+              {
+                "regexp": "^(.+):(\\d+):\\s+(.+)$",
+                "file": 1,
+                "line": 2,
+                "message": 3
+              }
+            ]
+          }
+        ],
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      {
+        "label": "flake8",
+        "detail": "Run flake8 on python files.",
+        "type": "shell",
+        "command": "ament_flake8 src/",
+        "presentation": {
+          "panel": "dedicated",
+          "reveal": "silent",
+          "clear": true
+        },
+        "problemMatcher": [
+          {
+            "owner": "flake8",
+            "source": "flake8",
+            "pattern": [
+              {
+                "code": 4,
+                "column": 3,
+                "file": 1,
+                "line": 2,
+                "message": 5,
+                "regexp": "^(.+):(\\d+):(\\d+): (\\w\\d+) (.+)$"
+              }
+            ]
+          }
+        ],
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      {
+        "label": "pep257",
+        "detail": "Run pep257 on python files.",
+        "type": "shell",
+        "command": "ament_pep257 src/",
+        "presentation": {
+          "panel": "dedicated",
+          "reveal": "silent",
+          "clear": true
+        },
+        "problemMatcher": [
+          {
+            "owner": "pep257",
+            "source": "pep257",
+            "pattern": [
+              {
+                "regexp": "^(.+):(\\d+)\\s+(.+):\\s+(.+):\\s+(.+)$",
+                "file": 1,
+                "line": 2,
+                "code": 4,
+                "message": 5
+              }
+            ]
+          }
+        ],
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      {
+        "label": "xmllint",
+        "detail": "Run xmllint on xml files.",
+        "type": "shell",
+        "command": "ament_xmllint src/",
+        "presentation": {
+          "panel": "dedicated",
+          "reveal": "silent",
+          "clear": true
+        },
+        "problemMatcher": [
+          {
+            "owner": "xmllint",
+            "source": "xmllint",
+            "fileLocation": "absolute",
+            "pattern": [
+              {
+                "regexp": "^(.+):(\\d+):\\s+(.+)\\s+:\\s+(.+)$",
+                "file": 1,
+                "line": 2,
+                "code": 3,
+                "message": 4
+              }
+            ]
+          }
+        ],
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      {
+        "label": "lint all",
+        "detail": "Run all linters.",
+        "dependsOn": [
+          "cppcheck",
+          "cpplint",
+          "flake8",
+          "lint_cmake",
+          "pep257",
+          "xmllint",
+          "uncrustify"
+        ],
+        "problemMatcher": [],
+      },
+      // Workspace editing tasks
+      {
+        "label": "new ament_cmake package",
+        "detail": "Create a new ROS cpp package from a template.",
+        "type": "shell",
+        "command": "ros2 pkg create --destination-directory src --build-type ament_cmake ${input:package}",
+        "problemMatcher": [],
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      {
+        "label": "new ament_python package",
+        "detail": "Create a new ROS python package from a template.",
+        "type": "shell",
+        "command": "ros2 pkg create --destination-directory src --build-type ament_python ${input:package}",
+        "problemMatcher": [],
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      {
+        "label": "import from workspace file",
+        "detail": "Use vcs to import modules specified by a workspace/rosinstall file.",
+        "type": "shell",
+        "command": "vcs import < src/ros2.repos src",
+        "problemMatcher": [],
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      {
+        "label": "update workspace file",
+        "detail": "Use vcs to update repositories in src to workspace file.",
+        "type": "shell",
+        "command": "vcs export src > src/ros2.repos",
+        "problemMatcher": [],
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      {
+        "label": "install dependencies",
+        "detail": "Install all dependencies specified in the workspaces package.xml files.",
+        "type": "shell",
+        "command": "sudo apt-get update && rosdep update && rosdep install --from-paths src --ignore-src -y",
+        "problemMatcher": [],
+        "options": {
+          "cwd": "${env:COLCON_WORKSPACE_FOLDER}"
+        },
+      },
+      // File editing tasks
+      {
+        "label": "add copyright",
+        "detail": "Add copyright notice to the active file.",
+        "type": "shell",
+        "command": "echo ' ' >> ${file} && ament_copyright --add-missing 'Open Rise Robotics' apache2 ${file} && sed -i '$ d' ${file}",
+        "problemMatcher": [],
+      }
+    ],
+    "inputs": [
+      {
+        "id": "package",
+        "type": "promptString",
+        "description": "Package name"
+      }
+    ]
+  },
+}
