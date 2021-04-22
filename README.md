@@ -10,6 +10,35 @@ To work with containers, this package provides the helper script `setup_workspac
 
 Run `setup_workspace.sh --help` for more details about the script usage.
 
+If you're using [ORise container](https://github.com/orise-robotics/ros_ws), it assumes that the folder `/home/orise` will be used as your woskspace to develop using ROS 2 and also, your VSCode workspace. If you want to use different workspaces inside the container, just copy the files `.vscode-format` and `ros2.code-workspace` to the root of your ROS workspace and redefine the `COLCON_WORKSPACE_FOLDER` variable. For example, let's assume that you want to use a ROS 2 woskpace called *foxy_ws*, this folder should have:
+
+- foxy_ws
+  - `.vscode-format`
+  - `ros2.code-workspace`
+  - *build*
+  - *install*
+  - *log*
+  - *src*
+
+And you must redefine the `COLCON_WORKSPACE_FOLDER` variable:
+
+```sh
+  $ export COLCON_WORKSPACE_FOLDER=/home/orise/foxy_ws
+```
+
+### Folders Configuration
+
+In order to have the desired folders opened when you open the VSCode workspace you should add them to the `ros2.code-workspace`:
+
+```json
+  // FOLDERS
+  "folders": [
+    {
+      "path": "foxy_ws"
+    }
+  ],
+```
+
 ## Workspace features
 
 Recommend convenient extensions, configure formatting and linting tools, and provide helper tasks and build/test/debug launchs.
